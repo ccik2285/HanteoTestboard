@@ -1,8 +1,11 @@
 package com.hanteo.board.api;
 
-import com.hanteo.board.common.ApiResponse;
+import com.hanteo.board.common.ResponseApi;
 import com.hanteo.board.domain.category.dto.CategoryResponse;
 import com.hanteo.board.domain.category.service.CategoryService;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -21,19 +24,27 @@ public class CategoryController {
         this.categoryService = categoryService;
     }
 
-
     // 전체 조회
+    @Operation(summary = "모든 카테고리 조회", description = "전체 카테고리 목록을 조회합니다.")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "카테고리 목록 조회 성공")
+    })
     @GetMapping("/getCategories")
-    public ResponseEntity<ApiResponse<List<CategoryResponse>>> getCategories() {
+    public ResponseEntity<ResponseApi<List<CategoryResponse>>> getCategories() {
         List<CategoryResponse> categories = categoryService.getAllCategories();
-        return ResponseEntity.ok(ApiResponse.success(categories));
+        return ResponseEntity.ok(ResponseApi.success(categories));
     }
 
     // ID로 조회
+    @Operation(summary = "ID로 카테고리 조회", description = "카테고리 ID로 해당 카테고리를 조회합니다.")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "카테고리 조회 성공"),
+            @ApiResponse(responseCode = "404", description = "카테고리 미발견")
+    })
     @GetMapping("/getCategoryById/{id}")
-    public ResponseEntity<ApiResponse<CategoryResponse>> getCategoryById(@PathVariable("id") Long id) {
+    public ResponseEntity<ResponseApi<CategoryResponse>> getCategoryById(@PathVariable("id") Long id) {
         CategoryResponse category = categoryService.getCategoryById(id);
-        return ResponseEntity.ok(ApiResponse.success(category));
+        return ResponseEntity.ok(ResponseApi.success(category));
     }
 
 }
