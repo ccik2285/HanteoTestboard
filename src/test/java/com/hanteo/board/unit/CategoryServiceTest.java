@@ -27,7 +27,7 @@ class CategoryServiceTest {
 
     @Test
     void getAllCategories() {
-        Category category = new Category(1L, 2L);
+        Category category = new Category(1L, 2L,"test_nm");
         when(categoryRepository.findAllCategories()).thenReturn(Collections.singletonList(category));
 
         List<CategoryResponse> result = categoryService.getAllCategories();
@@ -38,7 +38,7 @@ class CategoryServiceTest {
 
     @Test
     void getCategoryById() {
-        Category category = new Category(1L, 2L);
+        Category category = new Category(1L, 2L,"test_nm");
         when(categoryRepository.findCategoryById(1L)).thenReturn(category);
 
         CategoryResponse result = categoryService.getCategoryById(1L);

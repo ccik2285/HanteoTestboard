@@ -47,4 +47,16 @@ public class CategoryController {
         return ResponseEntity.ok(ResponseApi.success(category));
     }
 
+    // 카테고리명으로 조회
+    @Operation(summary = "카테고리명으로 카테고리 조회", description = "카테고리명으로 해당 카테고리를 조회합니다.")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "카테고리 조회 성공"),
+            @ApiResponse(responseCode = "404", description = "카테고리 미발견")
+    })
+    @GetMapping("/getCategoryByCategoryNm/{categoryNm}")
+    public ResponseEntity<ResponseApi<List<CategoryResponse>>> getCategoryByCategoryNm(@PathVariable("categoryNm") String categoryNm) {
+        List<CategoryResponse> categories = categoryService.getCategoryByCategoryNm(categoryNm);
+        return ResponseEntity.ok(ResponseApi.success(categories));
+    }
+
 }

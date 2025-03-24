@@ -22,9 +22,13 @@ public class Category extends BaseEntity {
     @Column(name = "child_id")
     private long childId;
 
+    @Column(name = "category_nm")
+    private String categoryNm;
+
     @Builder
-    public Category(long parentIdx, long childId) {
+    public Category(long parentIdx, long childId,String categoryNm) {
         this.parentIdx = parentIdx;
         this.childId = childId;
+        this.categoryNm = categoryNm;
     }
 }
