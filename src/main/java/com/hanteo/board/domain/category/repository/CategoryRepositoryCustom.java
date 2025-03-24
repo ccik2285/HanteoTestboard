@@ -7,4 +7,5 @@ import java.util.List;
 public interface CategoryRepositoryCustom {
     List<Category> findAllCategories();
     Category findCategoryById(Long id);
+    List<Category> findSubcategoriesById(Long parentId);
 }

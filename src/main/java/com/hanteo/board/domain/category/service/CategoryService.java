@@ -6,6 +6,7 @@ import com.hanteo.board.domain.category.repository.CategoryRepositoryCustom;
 import com.hanteo.board.domain.category.repository.JpaCategoryRepository;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -17,6 +18,25 @@ public class CategoryService {
     public CategoryService(CategoryRepositoryCustom categoryRepository, JpaCategoryRepository jpaCategoryRepository) {
         this.categoryRepository = categoryRepository;
         this.jpaCategoryRepository = jpaCategoryRepository;
+    }
+
+    public List<CategoryResponse> getCategoryWithSubcategories(Long parentId) {
+        CategoryResponse parentCategory = getCategoryById(parentId);
+
+        List<Category> subcategories = categoryRepository.findSubcategoriesById(parentId);
+        List<CategoryResponse> subcategoryResponses = subcategories.stream()
+                .map(this::toResponse)
+                .toList();
+
+        List<CategoryResponse> result = new ArrayList<>();
+        result.add(parentCategory);
+
+        for (CategoryResponse subcategory : subcategoryResponses) {
+            List<CategoryResponse> subSubcategories = getCategoryWithSubcategories(subcategory.getChild_id());
+            result.addAll(subSubcategories);
+        }
+
+        return result;
     }
 
     public List<CategoryResponse> getAllCategories() {

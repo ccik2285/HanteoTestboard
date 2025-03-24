@@ -29,4 +29,11 @@ public class CategoryRepository implements CategoryRepositoryCustom {
                 .where(category.parentIdx.eq(id))
                 .fetchOne();
     }
+
+    @Override
+    public List<Category> findSubcategoriesById(Long parentId) {
+        return queryFactory.selectFrom(category)
+                .where(category.parentIdx.eq(parentId))
+                .fetch();
+    }
 }

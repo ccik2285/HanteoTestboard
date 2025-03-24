@@ -42,9 +42,9 @@ public class CategoryController {
             @ApiResponse(responseCode = "404", description = "카테고리 미발견")
     })
     @GetMapping("/getCategoryById/{id}")
-    public ResponseEntity<ResponseApi<CategoryResponse>> getCategoryById(@PathVariable("id") Long id) {
-        CategoryResponse category = categoryService.getCategoryById(id);
-        return ResponseEntity.ok(ResponseApi.success(category));
+    public ResponseEntity<ResponseApi<List<CategoryResponse>>>  getCategoryById(@PathVariable("id") Long id) {
+        List<CategoryResponse> categories = categoryService.getCategoryWithSubcategories(id);
+        return ResponseEntity.ok(ResponseApi.success(categories));
     }
 
     // 카테고리명으로 조회
