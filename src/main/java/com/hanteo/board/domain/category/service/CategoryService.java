@@ -37,9 +37,14 @@ public class CategoryService {
     }
 
     private CategoryResponse toResponse(Category category) {
+        if (category == null) {
+            throw new NullPointerException("해당하는 카테고리가 없습니다.");
+        }
+
         return CategoryResponse.builder()
                 .parent_idx(category.getParentIdx())
                 .child_id(category.getChildId())
                 .build();
     }
+
 }
