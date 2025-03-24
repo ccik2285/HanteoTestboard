@@ -3,6 +3,7 @@ package com.hanteo.board.unit;
 import com.hanteo.board.domain.category.dto.CategoryResponse;
 import com.hanteo.board.domain.category.models.Category;
 import com.hanteo.board.domain.category.repository.CategoryRepositoryCustom;
+import com.hanteo.board.domain.category.repository.JpaCategoryRepository;
 import com.hanteo.board.domain.category.service.CategoryService;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -25,6 +26,9 @@ class CategoryServiceTest {
     @Mock
     private CategoryRepositoryCustom categoryRepository;
 
+    @Mock
+    private JpaCategoryRepository jpaCategoryRepository;
+
     @Test
     void getAllCategories() {
         Category category = new Category(1L, 2L,"test_nm");
@@ -45,5 +49,16 @@ class CategoryServiceTest {
 
         assertThat(result.getParent_idx()).isEqualTo(1L);
         assertThat(result.getChild_id()).isEqualTo(2L);
+    }
+
+    @Test
+    void getCategoryByCategoryNm() {
+        Category category = new Category(1L, 2L, "test_nm");
+        when(jpaCategoryRepository.findByCategoryNmContaining("test_nm")).thenReturn(Collections.singletonList(category));
+
+        List<CategoryResponse> result = categoryService.getCategoryByCategoryNm("test_nm");
+
+        assertThat(result).hasSize(1);
+        assertThat(result.get(0).getCategory_nm()).isEqualTo("test_nm");
     }
 }

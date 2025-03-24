@@ -44,6 +44,7 @@ public class CategoryService {
         return CategoryResponse.builder()
                 .parent_idx(category.getParentIdx())
                 .child_id(category.getChildId())
+                .category_nm(category.getCategoryNm())
                 .build();
     }
 
